@@ -1,4 +1,4 @@
-const Post = require('../models/Post');
+const Post = require('../models/post.model');
 
 // @desc    Get all published posts (or all posts for Admin/Author)
 // @route   GET /api/posts

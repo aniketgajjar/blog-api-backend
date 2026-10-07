@@ -4,8 +4,8 @@ const {
   getCategory,
   createCategory,
   deleteCategory,
-} = require('../controllers/categoryController');
-const { protect, restrictTo } = require('../middleware/authMiddleware');
+} = require('../controllers/category.controller');
+const { protect, restrictTo } = require('../Middlewares/auth.middleware');
 
 const router = express.Router();
 

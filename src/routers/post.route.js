@@ -5,8 +5,8 @@ const {
   createPost,
   updatePost,
   deletePost,
-} = require('../controllers/postController');
-const { protect, restrictTo } = require('../middleware/authMiddleware');
+} = require('../controllers/post.controller');
+const { protect, restrictTo } = require('../Middlewares/auth.middleware');
 
 // Include comment router
 const commentRouter = require('./commentRoutes');

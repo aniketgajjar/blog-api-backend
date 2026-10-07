@@ -1,6 +1,6 @@
 const express = require('express');
-const upload = require('../middleware/uploadMiddleware');
-const { protect, restrictTo } = require('../middleware/authMiddleware');
+const upload = require('../Middlewares/upload.middleware');
+const { protect, restrictTo } = require('../Middlewares/auth.middleware');
 
 const router = express.Router();
 

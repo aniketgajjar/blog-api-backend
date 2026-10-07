@@ -3,14 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const errorHandler = require('./middleware/errorMiddleware');
+const errorHandler = require('./Middlewares/error.middleware');
 
 // Route Imports
-const authRoutes = require('./routes/authRoutes');
-const categoryRoutes = require('./routes/categoryRoutes');
-const postRoutes = require('./routes/postRoutes');
-const commentRoutes = require('./routes/commentRoutes');
-const uploadRoutes = require('./routes/uploadRoutes');
+const authRoutes = require('./routers/auth.route');
+const categoryRoutes = require('./routers/category.routes');
+const postRoutes = require('./routers/post.route');
+const commentRoutes = require('./routers/comment.routes');
+const uploadRoutes = require('./routers/upload.routes');
 
 const app = express();
 

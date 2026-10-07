@@ -4,6 +4,8 @@ const helmet = require('helmet');
 
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const postRoutes = require('./routes/postRoutes');
+
 const app = express();
 
 // Security & Parsing Middleware
@@ -15,6 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 // Mount Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/posts', postRoutes);
 
 // Health Check Route
 app.get('/api/health', (req, res) => {

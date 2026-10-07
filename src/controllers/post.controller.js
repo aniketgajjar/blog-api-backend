@@ -5,21 +5,58 @@ const Post = require('../models/Post');
 // @access  Public
 exports.getPosts = async (req, res) => {
   try {
-    const posts = await Post.find({ status: 'published' })
+    // 1. Base Query Filter (Only published posts by default)
+    let queryObj = { status: 'published' };
+
+    // 2. Category Filter
+    if (req.query.category) {
+      queryObj.category = req.query.category;
+    }
+
+    // 3. Tag Filter
+    if (req.query.tag) {
+      queryObj.tags = { $in: [req.query.tag] };
+    }
+
+    // 4. Text Search (using title/content text index created in Step 7)
+    if (req.query.search) {
+      queryObj.$text = { $search: req.query.search };
+    }
+
+    // 5. Pagination Setup
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const startIndex = (page - 1) * limit;
+
+    // Count total matching documents
+    const total = await Post.countDocuments(queryObj);
+
+    // Execute query with sorting, population, and pagination
+    const posts = await Post.find(queryObj)
       .populate('author', 'name email')
       .populate('category', 'name slug')
-      .sort('-createdAt');
+      .sort(req.query.search ? { score: { $meta: 'textScore' } } : '-createdAt')
+      .skip(startIndex)
+      .limit(limit);
+
+    // Pagination Metadata Response
+    const pagination = {
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalPosts: total,
+      limit,
+    };
 
     res.status(200).json({
       success: true,
       count: posts.length,
+      pagination,
       data: posts,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 // @desc    Get single post by ID or Slug
 // @route   GET /api/posts/:id
 // @access  Public

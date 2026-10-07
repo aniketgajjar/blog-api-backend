@@ -8,7 +8,13 @@ const {
 } = require('../controllers/postController');
 const { protect, restrictTo } = require('../middleware/authMiddleware');
 
+// Include comment router
+const commentRouter = require('./commentRoutes');
+
 const router = express.Router();
+
+// Re-route into other resource routers for nested routes
+router.use('/:postId/comments', commentRouter);
 
 router
   .route('/')
